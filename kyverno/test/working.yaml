@@ -1,0 +1,18 @@
+name: sample-working
+policies:
+  - ../policies
+resources:
+  - ../manifests/working.yaml
+results:
+  - policy: require-requests-limits
+    rule: required-resources-request-limit
+    resources:
+      - nginx-deployment
+    kind: Deployment
+    result: pass
+  - policy: check-deprecated-apis
+    rule: validate-v1-22-removals
+    resources:
+      - standard
+    kind: StorageClass
+    result: pass

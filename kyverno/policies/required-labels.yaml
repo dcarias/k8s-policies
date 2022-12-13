@@ -1,0 +1,33 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: required-component-label
+  annotations:
+    policies.kyverno.io/title: Required Component Labels
+    policies.kyverno.io/category: Other
+    policies.kyverno.io/severity: medium
+    kyverno.io/kyverno-version: 1.6.0
+    policies.kyverno.io/minversion: 1.6.0
+    kyverno.io/kubernetes-version: "1.23"
+    policies.kyverno.io/subject: Label
+    policies.kyverno.io/description: >-
+      Required component label
+spec:
+  validationFailureAction: audit
+  background: true
+  rules:
+  - name: required-component-label
+    match:
+      resources:
+        kinds:
+        - Service
+        - Deployment
+        - DaemonSet
+        - StatefulSet
+        - Job
+    validate:
+      message: Required component label
+      pattern:
+        metadata:
+          labels:
+            "component": "*"

@@ -1,0 +1,20 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: only-trustworthy-registries
+spec:
+  validationFailureAction: audit
+  background: true
+  rules:
+  - name: validate-registries
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "Unknown image registry."
+      pattern:
+        spec:
+          containers:
+          - image: "eu.gcr.io/* | k8s.gcr.io/*"

@@ -1,0 +1,12 @@
+name: sample-working
+policies:
+  - ../policies
+resources:
+  - ../manifests/broken.yaml
+results:
+  - policy: require-requests-limits
+    rule: required-resources-request-limit
+    resources:
+      - nginx-deployment
+    kind: Deployment
+    result: pass
